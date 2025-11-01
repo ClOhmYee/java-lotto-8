@@ -1,6 +1,8 @@
 package lotto;
 
+import java.util.Collections;
 import java.util.List;
+
 
 public class Lotto {
     private final List<Integer> numbers;
@@ -14,7 +16,17 @@ public class Lotto {
         if (numbers.size() != 6) {
             throw new IllegalArgumentException("[ERROR] 로또 번호는 6개여야 합니다.");
         }
+
+        if (numbers.stream().distinct().count() != 6) {
+            throw new IllegalArgumentException("[ERROR] 로또 번호는 중복될 수 없습니다.");
+        }
+
+        if (numbers.get(0) < 1 || numbers.get(5) > 45) {
+            throw new IllegalArgumentException("[ERROR] 로또 번호는 1 이상 45 이하여야 합니다.");
+        }
     }
 
-    // TODO: 추가 기능 구현
+    public List<Integer> getNumbers() {
+        return Collections.unmodifiableList(numbers);
+    }
 }
