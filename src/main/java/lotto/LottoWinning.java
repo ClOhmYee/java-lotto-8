@@ -31,4 +31,6 @@ public class LottoWinning {
     public List<Integer> getWinningNumbers() {
         return Collections.unmodifiableList(winningNumbers);
     }
+
+    public int getBonusNumber() { return bonus;}
 }
