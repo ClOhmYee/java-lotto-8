@@ -54,6 +54,76 @@ class ApplicationTest extends NsTest {
         });
     }
 
+    @Test
+    void 구입금액이_1000원_단위가_아니면_예외가_발생한다() {
+        assertSimpleTest(() -> {
+            runException("1500");
+            assertThat(output()).contains("[ERROR] 구입 금액은 1,000원 단위여야 합니다.");
+        });
+    }
+
+    @Test
+    void 당첨번호가_중복되면_예외가_발생한다() {
+        assertSimpleTest(() -> {
+            runException("1000", "1,2,3,4,5,5", "7");
+            assertThat(output()).contains("[ERROR] 당첨 번호는 중복될 수 없습니다.");
+        });
+    }
+
+    @Test
+    void 당첨번호가_6개가_아니면_예외가_발생한다() {
+        assertSimpleTest(() -> {
+            runException("1000", "1,2,3,4,5", "7");
+            assertThat(output()).contains("[ERROR] 당첨 번호는 6개여야 합니다.");
+        });
+    }
+
+    @Test
+    void 보너스번호가_당첨번호와_중복되면_예외가_발생한다() {
+        assertSimpleTest(() -> {
+            runException("1000", "1,2,3,4,5,6", "6");
+            assertThat(output()).contains("[ERROR] 당첨 번호는 중복될 수 없습니다.");
+        });
+    }
+
+    @Test
+    void 보너스번호가_범위를_벗어나면_예외가_발생한다() {
+        assertSimpleTest(() -> {
+            runException("1000", "1,2,3,4,5,6", "46");
+            assertThat(output()).contains("[ERROR] 보너스 번호는 1이상 45 이하여야 합니다.");
+        });
+    }
+
+    @Test
+    void 당첨번호가_범위를_벗어나면_예외가_발생한다() {
+        assertSimpleTest(() -> {
+            runException("1000", "1,2,3,4,5,46", "7");
+            assertThat(output()).contains("[ERROR] 당첨 번호는 1이상 45 이하여야 합니다.");
+        });
+    }
+
+    @Test
+    void 모든_등수를_받은_경우_올바른_수익률을_계산한다() {
+        assertRandomUniqueNumbersInRangeTest(
+                () -> {
+                    run("5000", "1,2,3,4,5,6", "7");
+                    assertThat(output()).contains(
+                            "5개를 구매했습니다.",
+                            "3개 일치 (5,000원) - 1개",
+                            "4개 일치 (50,000원) - 1개",
+                            "5개 일치 (1,500,000원) - 1개",
+                            "5개 일치, 보너스 볼 일치 (30,000,000원) - 1개",
+                            "6개 일치 (2,000,000,000원) - 1개"
+                    );
+                },
+                List.of(1, 2, 3, 4, 5, 6),
+                List.of(1, 2, 3, 4, 5, 7),
+                List.of(1, 2, 3, 4, 5, 8),
+                List.of(1, 2, 3, 4, 9, 10),
+                List.of(1, 2, 3, 11, 12, 13)
+        );
+    }
+
     @Override
     public void runMain() {
         Application.main(new String[]{});
