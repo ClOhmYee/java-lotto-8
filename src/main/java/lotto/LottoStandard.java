@@ -42,4 +42,12 @@ public enum LottoStandard {
 
         return NONE;
     }
+
+    public int getPrize() {
+        return prize;
+    }
+
+    public int getNumberMatches() {
+        return numberMatches;
+    }
 }
