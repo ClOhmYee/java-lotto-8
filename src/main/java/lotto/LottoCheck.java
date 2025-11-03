@@ -16,12 +16,8 @@ public class LottoCheck {
         int currentUserValue = user.getNumbers().get(indices[0]);
         int currentWinValue = win.getWinningNumbers().get(indices[1]);
 
-        if (currentUserValue > currentWinValue) { 
-            indices[1]++; 
-        }
-        if (currentUserValue < currentWinValue) { 
-            indices[0]++; 
-        }
+        if (currentUserValue > currentWinValue) { indices[1]++; }
+        if (currentUserValue < currentWinValue) { indices[0]++; }
         if (currentUserValue == currentWinValue) {
             indices[1]++;
             indices[0]++;

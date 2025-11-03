@@ -20,25 +20,11 @@ public enum LottoStandard {
     }
 
     public static LottoStandard findMatches(int numberMatches, boolean bonusMatch) {
-        if (numberMatches == 6) {
-            return FIRST;
-        }
-
-        if (numberMatches == 5 && bonusMatch) {
-            return SECOND;
-        }
-
-        if (numberMatches == 5) {
-            return THIRD;
-        }
-
-        if (numberMatches == 4) {
-            return FOURTH;
-        }
-
-        if (numberMatches == 3) {
-            return FIFTH;
-        }
+        if (numberMatches == 6) { return FIRST; }
+        if (numberMatches == 5 && bonusMatch) { return SECOND; }
+        if (numberMatches == 5) { return THIRD; }
+        if (numberMatches == 4) { return FOURTH; }
+        if (numberMatches == 3) { return FIFTH; }
 
         return NONE;
     }
